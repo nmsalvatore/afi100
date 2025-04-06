@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <title>The AFI 100 Challenge</title>
+        <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    </head>
+    <body>
+        <header>
+            <div>
+                <h1>The AFI 100 Challenge</h1>
+                {% include 'progress_tracker.html' %}
+            </div>
+            <p>Below is the American Film Institute's list of the 100 greatest American films released between 1907 and 2007. The challenge presented here is simple; at your desired pace, watch all of the films in the list.</p>
+            <p>To mark a film as completed, click on the film text. Click on it again to toggle it back to incomplete. Your progress is tracked at the top right corner of this page. Click on the progress value to toggle between a fractional and percentage-based based measurement.</p>
+        </header>
+        <main>
+            <ul>
+                {% for film in films %}
+                    <li class="film" data-id="{{ film.id }}" data-watched="{{ 'true' if film.watched else 'false' }}">
+                        <span class="ranking">{{ film.id }}.</span>
+                        {% include 'film.html' %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </main>
+    </body>
+
+    <script>
+        document.body.addEventListener("updateProgress", () => {
+            htmx.ajax("GET", "/progress", {target: "#progress"})
+        })
+    </script>
+
+    <!-- TODO: load this conditionally based on whether url contains key -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</html>

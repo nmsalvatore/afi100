@@ -1,0 +1,16 @@
+{% set watched_count = films|selectattr('watched', 'eq', 1)|list|length %}
+{% set total_films = films|length %}
+{% set percentage = (watched_count / total_films * 100)|int %}
+
+<span
+    id="progress"
+    hx-get="/toggle-progress-display"
+    hx-swap="outerHTML"
+    hx-trigger="click"
+>
+    {% if progress_display == "fraction" %}
+        {{ watched_count }}/{{ total_films }}
+    {% else %}
+        {{ percentage }}%
+    {% endif %}
+</span>

@@ -1,0 +1,14 @@
+<!-- <div
+    class="film {{ 'watched' if film.watched else '' }}"
+    hx-post="{{ url_for('toggle_watched', id=film.id)}}"
+    hx-swap="outerHTML"
+    hx-trigger="click"
+>
+    <span class="info">{{ film.title }} ({{ film.year }})</span>
+    <span class="director">{{ film.director }}</span>
+</div> -->
+
+<div>
+    <span class="info">{{ film.title }} ({{ film.year }})</span>
+    <span class="director">{{ film.director }}</span>
+</div>
