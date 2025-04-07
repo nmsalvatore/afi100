@@ -13,8 +13,14 @@
                 <h1>The AFI 100 Challenge</h1>
                 {% include 'progress_tracker.html' %}
             </div>
-            <p>Below is the American Film Institute's list of the 100 greatest American films released between 1907 and 2007. The challenge presented here is simple; at your desired pace, watch all of the films in the list.</p>
-            <p>To mark a film as completed, click on the film text. Click on it again to toggle it back to incomplete. Your progress is tracked at the top right corner of this page. Click on the progress value to toggle between a fractional and percentage-based based measurement.</p>
+            <p>Below is the 10th anniversary edition of the American Film Institute's list of the 100 greatest American films of the last 100 years (as of 2007). The challenge here is simple; at your desired pace, watch all of the films in the list.</p>
+            <p>To mark a film as "watched", just click on the film title. Click on it again to toggle it back to "unwatched". Your progress is tracked at the top right corner of this page. Click on the progress value to toggle between a fractional and percentage-based measurement.</p>
+            <p>Your personalized list is saved in your browser environment automatically. However, if you would like your list to be accessible from anywhere, you can create a secure link where your list will be saved by clicking the link below.</p>
+            <form id="save_list_form" action="/save-list" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="watched_film_ids" id="watched_film_ids_input">
+                <button type="submit">Save my list!</button>
+            </form>
         </header>
         <main>
             <ul>
