@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     allFilmDivs.forEach((div) => {
         div.addEventListener("click", () => {
-            const filmId = div.parentElement.dataset.id;
+            const filmId = div.dataset.filmId;
             toggleFilmWatchedStatus(div, filmId);
             updateProgressBar(allFilmDivs.length);
         });
@@ -30,9 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function toggleFilmWatchedStatus(div, filmId) {
-        const li = div.parentElement;
-        const isWatched = li.dataset.watched === "true";
-        li.dataset.watched = (!isWatched).toString();
+        const isWatched = div.dataset.watched === "true";
+        div.dataset.watched = (!isWatched).toString();
 
         const watchedFilmIds = getWatchedFilmIds() || [];
 
@@ -49,9 +48,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateElementDataAttributes(watchedIds) {
         Array.from(allFilmDivs)
-            .filter((div) => watchedIds.includes(div.parentElement.dataset.id))
+            .filter((div) => watchedIds.includes(div.dataset.filmId))
             .forEach((div) => {
-                div.parentElement.dataset.watched = "true";
+                div.dataset.watched = "true";
             });
     }
 });

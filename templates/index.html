@@ -5,41 +5,42 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <title>The AFI 100 Challenge</title>
-        <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+
+        {% if list_id %}
+            <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+            <script src="{{ url_for('static', filename='js/update_progress.js') }}" defer></script>
+        {% endif %}
+
+        {% if not list_id %}
+            <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+        {% endif %}
     </head>
     <body>
         <header>
             <div>
                 <h1>The AFI 100 Challenge</h1>
-                {% include 'progress_tracker.html' %}
+                {% include "progress_tracker.html" %}
             </div>
-            <p>Below is the 10th anniversary edition of the American Film Institute's list of the 100 greatest American films of the last 100 years (as of 2007). The challenge here is simple; at your desired pace, watch all of the films in the list.</p>
-            <p>To mark a film as "watched", just click on the film title. Click on it again to toggle it back to "unwatched". Your progress is tracked at the top right corner of this page. Click on the progress value to toggle between a fractional and percentage-based measurement.</p>
-            <p>Your personalized list is saved in your browser environment automatically. However, if you would like your list to be accessible from anywhere, you can create a secure link where your list will be saved by clicking the link below.</p>
-            <form id="save_list_form" action="/save-list" method="post">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="watched_film_ids" id="watched_film_ids_input">
-                <button type="submit">Save my list!</button>
-            </form>
+
+            {% include "info.html" %}
+
+            {% if not list_id %}
+                <form id="save_list_form" action="/save-list" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="watched_film_ids" id="watched_film_ids_input">
+                    <button type="submit">Save my list!</button>
+                </form>
+            {% endif %}
         </header>
         <main>
             <ul>
                 {% for film in films %}
-                    <li class="film" data-id="{{ film.id }}" data-watched="{{ 'true' if film.watched else 'false' }}">
+                    <li class="film" data-film-id="{{ film.id }}">
                         <span class="ranking">{{ film.id }}.</span>
-                        {% include 'film.html' %}
+                        {% include "film.html" %}
                     </li>
                 {% endfor %}
             </ul>
         </main>
     </body>
-
-    <script>
-        document.body.addEventListener("updateProgress", () => {
-            htmx.ajax("GET", "/progress", {target: "#progress"})
-        })
-    </script>
-
-    <!-- TODO: load this conditionally based on whether url contains key -->
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </html>
