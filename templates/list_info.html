@@ -1,9 +1,0 @@
-{% if request.path == "/" %}
-    <p>Below is the 10th anniversary edition of the American Film Institute's list of the 100 greatest American films of the last 100 years (as of 2007). The challenge here is simple; at your desired pace, watch all of the films in the list.</p>
-    <p>To mark a film as "watched", just click on the film title. Click on it again to toggle it back to "unwatched". Your progress is tracked at the top right corner of this page. Click on the progress value to toggle between a fractional and percentage-based measurement.</p>
-    <p>Your personalized list is saved in your browser environment automatically. However, if you would like your list to be accessible from anywhere, you can create a secure link where your list will be saved by clicking the button below.</p>
-{% else %}
-    <p>Welcome to your personalized list for tracking the AFI 100 challenge! Your list can be accessed from anywhere at the following URL:</p>
-    <div class="personal-link-container">{{ request.url }}</div>
-    <p>It is highly recommended that you either bookmark this page or store the link somewhere secure.</p>
-{% endif %}

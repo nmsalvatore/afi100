@@ -10,7 +10,9 @@
         <span class="info">{{ film.title }} ({{ film.year }})</span>
         <span class="director">{{ film.director }}</span>
     </div>
-{% else %}
+{% endif %}
+
+{% if not list_id %}
     <div data-film-id="{{ film.id }}" data-watched="{{ 'true' if film.watched else 'false' }}">
         <span class="info">{{ film.title }} ({{ film.year }})</span>
         <span class="director">{{ film.director }}</span>

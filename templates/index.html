@@ -6,11 +6,13 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <title>The AFI 100 Challenge</title>
 
-        {% if request.path == "/" %}
-            <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
-        {% else %}
+        {% if list_id %}
             <script src="https://unpkg.com/htmx.org@2.0.4"></script>
             <script src="{{ url_for('static', filename='js/update_progress.js') }}" defer></script>
+        {% endif %}
+
+        {% if not list_id %}
+            <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
         {% endif %}
     </head>
     <body>
@@ -20,9 +22,9 @@
                 {% include "progress_tracker.html" %}
             </div>
 
-            {% include "list_info.html" %}
+            {% include "info.html" %}
 
-            {% if request.path == "/" %}
+            {% if not list_id %}
                 <form id="save_list_form" action="/save-list" method="post">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="watched_film_ids" id="watched_film_ids_input">

@@ -1,12 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300&display=swap");
 
 :root {
     --dark-blue: hsl(210 25% 20%);
-    --medium-blue: hsl(210 20% 62.5%);
+    --medium-blue: hsl(210 20% 60%);
     --light-blue: hsl(210 45% 80%);
     --whitish: hsl(210 60% 90%);
     --light-yellow: hsl(30 45% 80%);
-    --line-height: 1.6;
+    --line-height: 1.7;
 }
 
 * {
@@ -58,14 +58,28 @@ main {
 }
 
 #save_list_form button {
-    background: var(--dark-blue);
-    border: 1px solid var(--medium-blue);
-    box-shadow: 3px 3px var(--light-blue);
-    color: var(--whitish);
+    background: none;
+    border: none;
+    color: var(--light-yellow);
+    cursor: pointer;
     font-family: inherit;
     font-size: inherit;
-    font-weight: inherit;
-    padding: 0.25rem 0.5rem;
+    text-decoration: underline;
+}
+
+#copy_url {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    margin-left: 1rem;
+    text-decoration: underline;
+}
+
+.url {
+    color: var(--light-yellow);
 }
 
 main {

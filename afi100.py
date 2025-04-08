@@ -106,7 +106,7 @@ def index():
     return render_template("index.html", films=films, progress_display=progress_display)
 
 
-@app.route("/list/<list_id>")
+@app.route("/<list_id>")
 def view_private_list(list_id):
     films = fetch_user_films(list_id)
     return render_template("index.html", films=films, progress_display=progress_display, list_id=list_id)
@@ -167,7 +167,7 @@ def toggle_progress_display():
 @app.route("/save-list", methods=["POST"])
 def save_list():
     custom_chars = string.ascii_letters + string.digits
-    list_id = nanoid.generate(alphabet=custom_chars, size=6)
+    list_id = nanoid.generate(alphabet=custom_chars, size=8)
     watched_film_json = request.form.get("watched_film_ids")
     watched_film_ids = json.loads(watched_film_json)
     user_list_films = [(list_id, int(film_id), 1) for film_id in watched_film_ids]
