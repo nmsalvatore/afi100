@@ -1,14 +1,18 @@
-<!-- <div
-    class="film {{ 'watched' if film.watched else '' }}"
-    hx-post="{{ url_for('toggle_watched', id=film.id)}}"
-    hx-swap="outerHTML"
-    hx-trigger="click"
->
-    <span class="info">{{ film.title }} ({{ film.year }})</span>
-    <span class="director">{{ film.director }}</span>
-</div> -->
-
-<div>
-    <span class="info">{{ film.title }} ({{ film.year }})</span>
-    <span class="director">{{ film.director }}</span>
-</div>
+{% if list_id %}
+    <div
+        data-film-id="{{ film.id }}"
+        data-watched="{{ 'true' if film.watched else 'false' }}"
+        hx-post="{{ url_for('toggle_watched', list_id=list_id, film_id=film.id) }}"
+        hx-swap="outerHTML"
+        hx-trigger="click"
+        hx-headers='{"X-CSRFToken": "{{ csrf_token() }}"}'
+    >
+        <span class="info">{{ film.title }} ({{ film.year }})</span>
+        <span class="director">{{ film.director }}</span>
+    </div>
+{% else %}
+    <div data-film-id="{{ film.id }}" data-watched="{{ 'true' if film.watched else 'false' }}">
+        <span class="info">{{ film.title }} ({{ film.year }})</span>
+        <span class="director">{{ film.director }}</span>
+    </div>
+{% endif %}

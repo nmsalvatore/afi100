@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;500&display=swap");
 
 :root {
     --dark-blue: hsl(210 25% 20%);
@@ -6,7 +6,7 @@
     --light-blue: hsl(210 45% 80%);
     --whitish: hsl(210 60% 90%);
     --light-yellow: hsl(30 45% 80%);
-    --line-height: 1.75;
+    --line-height: 1.6;
 }
 
 * {
@@ -49,6 +49,25 @@ main {
     padding: 1rem;
 }
 
+.personal-link-container {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--whitish);
+    font-weight: 500;
+}
+
+#save_list_form button {
+    background: var(--dark-blue);
+    border: 1px solid var(--medium-blue);
+    box-shadow: 3px 3px var(--light-blue);
+    color: var(--whitish);
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    padding: 0.25rem 0.5rem;
+}
+
 main {
     line-height: var(--line-height);
 }
@@ -75,13 +94,13 @@ li > div {
     display: inline-block;
 }
 
-li[data-watched="true"] > div {
+li > div[data-watched="true"] {
     text-decoration: line-through;
     text-decoration-color: var(--medium-blue);
     opacity: 0.5;
 }
 
-li[data-watched="true"] > div > span.info {
+li > div[data-watched="true"] > span.info {
     color: var(--medium-blue);
     font-weight: 300;
 }

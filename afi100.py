@@ -77,35 +77,75 @@ def fetch_all_films():
     return films
 
 
+def fetch_user_films(list_id):
+    con = sqlite3.connect("db.sqlite3")
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    cur.execute("""
+        SELECT
+            f.id,
+            f.title,
+            f.year,
+            f.director,
+            COALESCE(ulf.watched, 0) as watched
+        FROM
+            films f
+        LEFT JOIN
+            user_list_films ulf ON f.id = ulf.film_id AND ulf.list_id = ?
+        ORDER BY
+            f.id
+    """, (list_id,))
+    films = cur.fetchall()
+    con.close()
+    return films
+
+
 @app.route("/")
 def index():
     films = fetch_all_films()
     return render_template("index.html", films=films, progress_display=progress_display)
 
 
-@app.route("/list")
-def view_private_list():
-    films = fetch_all_films()
-    return render_template("index.html", films=films, progress_display=progress_display)
+@app.route("/list/<list_id>")
+def view_private_list(list_id):
+    films = fetch_user_films(list_id)
+    return render_template("index.html", films=films, progress_display=progress_display, list_id=list_id)
 
 
-@app.route("/toggle-watched/<int:id>", methods=["POST"])
-def toggle_watched(id):
+@app.route("/toggle-watched/<list_id>/<int:film_id>", methods=["POST"])
+def toggle_watched(list_id, film_id):
     con = sqlite3.connect("db.sqlite3")
     con.row_factory = sqlite3.Row
     cur = con.cursor()
 
-    cur.execute("SELECT watched FROM films WHERE id = ?", (id,))
-    current_status = cur.fetchone()[0]
-    updated_status = 1 if current_status == 0 else 0
-    cur.execute("UPDATE films SET watched = ? WHERE id = ?", (updated_status, id))
-    con.commit()
+    cur.execute("SELECT watched FROM user_list_films WHERE list_id = ? AND film_id = ?", (list_id, film_id))
+    user_film_status = cur.fetchone()
 
-    cur.execute("SELECT * FROM films WHERE id = ?", (id,))
+    if user_film_status is None:
+        cur.execute("INSERT INTO user_list_films VALUES (?, ?, ?)", (list_id, film_id, 1))
+    else:
+        updated_status = 1 if user_film_status[0] == 0 else 0
+        cur.execute("UPDATE user_list_films SET watched = ? WHERE list_id = ? AND film_id = ?", (updated_status, list_id, film_id))
+
+    con.commit()
+    cur.execute("""
+        SELECT
+            f.id,
+            f.title,
+            f.year,
+            f.director,
+            COALESCE(ulf.watched, 0) as watched
+        FROM
+            films f
+        LEFT JOIN
+            user_list_films ulf ON f.id = ulf.film_id AND ulf.list_id = ?
+        WHERE
+            f.id = ?
+    """, (list_id, film_id))
     film = cur.fetchone()
     con.close()
 
-    response = make_response(render_template("film.html", film=film))
+    response = make_response(render_template("film.html", film=film, list_id=list_id))
     response.headers["HX-Trigger"] = "updateProgress"
     return response
 
@@ -127,7 +167,7 @@ def toggle_progress_display():
 @app.route("/save-list", methods=["POST"])
 def save_list():
     custom_chars = string.ascii_letters + string.digits
-    list_id = nanoid.generate(alphabet=custom_chars, size=10)
+    list_id = nanoid.generate(alphabet=custom_chars, size=6)
     watched_film_json = request.form.get("watched_film_ids")
     watched_film_ids = json.loads(watched_film_json)
     user_list_films = [(list_id, int(film_id), 1) for film_id in watched_film_ids]
@@ -140,7 +180,7 @@ def save_list():
     con.commit()
     con.close()
 
-    return redirect(url_for('view_private_list', id=list_id))
+    return redirect(url_for('view_private_list', list_id=list_id))
 
 
 with app.app_context():
