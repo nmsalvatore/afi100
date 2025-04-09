@@ -1,0 +1,10 @@
+{% set watched_count = films|selectattr('watched', 'eq', 1)|list|length %}
+{% set total_films = films|length %}
+
+{% if list_id %}
+    <span id="progress">{{ watched_count }}/{{ total_films }}</span>
+{% endif %}
+
+{% if not list_id %}
+    <span id="progress"></span>
+{% endif %}
