@@ -6,18 +6,19 @@ import os
 import sqlite3
 import string
 
+from dotenv import load_dotenv
 from flask import Flask, make_response, redirect, render_template, request, url_for
 from flask_wtf.csrf import CSRFProtect
 
 
+load_dotenv()
+
+
 app = Flask(__name__)
-app.config.from_mapping(
-    SECRET_KEY="dev"
-)
+app.config.from_prefixed_env()
+app.config["SECRET_KEY"]
+
 csrf = CSRFProtect(app)
-
-
-progress_display = "fraction"
 
 
 def init_db():
@@ -103,13 +104,13 @@ def fetch_user_films(list_id):
 @app.route("/")
 def index():
     films = fetch_all_films()
-    return render_template("index.html", films=films, progress_display=progress_display)
+    return render_template("index.html", films=films)
 
 
 @app.route("/<list_id>")
 def view_private_list(list_id):
     films = fetch_user_films(list_id)
-    return render_template("index.html", films=films, progress_display=progress_display, list_id=list_id)
+    return render_template("index.html", films=films, list_id=list_id)
 
 
 @app.route("/toggle-watched/<list_id>/<int:film_id>", methods=["POST"])
