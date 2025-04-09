@@ -150,18 +150,10 @@ def toggle_watched(list_id, film_id):
     return response
 
 
-@app.route("/progress", methods=["GET"])
-def progress():
-    films = fetch_all_films()
-    return render_template("progress_tracker.html", films=films)
-
-
-@app.route("/toggle-progress-display")
-def toggle_progress_display():
-    global progress_display
-    progress_display = "fraction" if progress_display == "percentage" else "percentage"
-    films = fetch_all_films()
-    return render_template("progress_tracker.html", films=films, progress_display=progress_display)
+@app.route("/progress/<list_id>", methods=["GET"])
+def progress(list_id):
+    films = fetch_user_films(list_id)
+    return render_template("progress.html", films=films, list_id=list_id)
 
 
 @app.route("/save-list", methods=["POST"])

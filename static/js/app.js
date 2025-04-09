@@ -10,13 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (watchedFilmIds.length > 0) {
         updateElementDataAttributes(watchedFilmIds);
     }
-    updateProgressBar(allFilmDivs.length);
+
+    updateProgressBar();
 
     allFilmDivs.forEach((div) => {
         div.addEventListener("click", () => {
-            const filmId = div.dataset.filmId;
+            const filmId = div.parentElement.dataset.filmId;
             toggleFilmWatchedStatus(div, filmId);
-            updateProgressBar(allFilmDivs.length);
+            updateProgressBar();
         });
     });
 
@@ -48,7 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateElementDataAttributes(watchedIds) {
         Array.from(allFilmDivs)
-            .filter((div) => watchedIds.includes(div.dataset.filmId))
+            .filter((div) =>
+                watchedIds.includes(div.parentElement.dataset.filmId),
+            )
             .forEach((div) => {
                 div.dataset.watched = "true";
             });
@@ -59,12 +62,19 @@ function setWatchedFilmIds(filmIds) {
     localStorage.setItem("watched-film-ids", JSON.stringify(filmIds));
 }
 
+function getTotalFilmCount() {
+    const filmRows = document.querySelectorAll("li.film");
+    return filmRows.length;
+}
+
 function getWatchedFilmIds() {
     return JSON.parse(localStorage.getItem("watched-film-ids"));
 }
 
-function updateProgressBar(totalFilms) {
+function updateProgressBar() {
     const progressElement = document.getElementById("progress");
     const watchedFilmIds = getWatchedFilmIds() || [];
-    progressElement.textContent = `${watchedFilmIds.length}/${totalFilms}`;
+    const watchedCount = watchedFilmIds.length;
+    const totalFilmCount = getTotalFilmCount();
+    progressElement.textContent = `${watchedCount}/${totalFilmCount}`;
 }

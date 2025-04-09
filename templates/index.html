@@ -3,23 +3,26 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="{{ url_for('static', filename='icons/favicon.png') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <title>The AFI 100 Challenge</title>
 
         {% if list_id %}
             <script src="https://unpkg.com/htmx.org@2.0.4"></script>
-            <script src="{{ url_for('static', filename='js/update_progress.js') }}" defer></script>
+            <script src="{{ url_for('static', filename='js/progress.js') }}" defer></script>
+            <script src="{{ url_for('static', filename='js/clipboard.js') }}" defer></script>
         {% endif %}
 
         {% if not list_id %}
             <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
         {% endif %}
     </head>
-    <body>
+    <body data-list-id="{{ list_id }}">
         <header>
             <div>
                 <h1>The AFI 100 Challenge</h1>
-                {% include "progress_tracker.html" %}
+
+                {% include "progress.html" %}
             </div>
 
             {% include "info.html" %}

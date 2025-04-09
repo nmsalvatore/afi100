@@ -25,6 +25,7 @@ body {
     font-family: "IBM Plex Mono", Courier;
     font-size: 0.875rem;
     font-weight: 300;
+    letter-spacing: -0.2px;
     margin: 4rem 0;
 }
 
@@ -78,7 +79,11 @@ main {
     text-decoration: underline;
 }
 
-.url {
+#copy_url.copied {
+    text-decoration: none;
+}
+
+#url {
     color: var(--light-yellow);
 }
 
@@ -88,6 +93,10 @@ main {
 
 ul {
     list-style-type: none;
+}
+
+li.film {
+    display: flex;
 }
 
 p {
@@ -121,6 +130,7 @@ li > div[data-watched="true"] > span.info {
 
 span.ranking {
     color: var(--whitish);
+    margin-right: 1ch;
 }
 
 span.info {
@@ -135,8 +145,4 @@ a.fancy-link {
     color: var(--light-blue);
     font-weight: 400;
     line-height: var(--line-height);
-}
-
-#progress {
-    cursor: pointer;
 }
