@@ -1,8 +1,6 @@
-<p>Below is the 10th anniversary edition of the American Film Institute's list of the 100 greatest American films of the last 100 years (as of 2007). The challenge here is simple; at your desired pace, watch all of the films in the list.</p>
-<p>To mark a film as "watched", click on the film title. Click the title again to toggle it back to "unwatched". Your progress is tracked at the top right corner of this page.</p>
-
 {% if list_id %}
-    <p>This list can be accessed from anywhere at the URL below. It's highly recommended that you save this URL in a bookmark or secure note. If you lose it, it will be gone forever.</p>
+    <p>Welcome to your private list for tracking the American Film Institute's list of the 100 greatest American films of the last 100 years!</p>
+    <p>This list can be accessed from anywhere at the URL below. If you haven't already, <strong>please save this URL in a bookmark or secure note</strong> now. If you lose it, it will be gone forever.</p>
     <div>
         <span id="url">{{ request.url }}</span>
         <button id="copy_url" onclick="copyURL()">Copy URL</button>
@@ -10,5 +8,7 @@
 {% endif %}
 
 {% if not list_id %}
-    <p>Your watched films are saved in this browser's local storage automatically. If you would like your updates to persist across devices, you can move your list to a private URL by clicking the link below.</p>
+    <p>Below is the 10th anniversary edition of the American Film Institute's list of the 100 greatest American films of the last 100 years (as of 2007). The challenge here is simple; at your desired pace, watch all of the films in the list.</p>
+    <p>To mark a film as "watched", click on the film title. Click the title again to toggle it back to "unwatched". Your progress is tracked at the top right corner of this page.</p>
+    <p>Your watched films are saved in this browser's local storage automatically. If you would like your updates to persist across devices, you can save your list at a private URL by clicking the link below.</p>
 {% endif %}
