@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;1,300&family=IBM+Plex+Serif:ital,wght@0,300;1,300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap");
 
 :root {
     --dark-blue: hsl(210 25% 20%);
@@ -22,26 +22,35 @@ html {
 }
 
 body {
-    font-family: "IBM Plex Serif", Courier;
+    font-family: "IBM Plex Mono", Courier;
     font-size: 0.9375rem;
+    font-weight: 300;
+    letter-spacing: -0.4px;
     margin: 4rem 0;
+}
+
+@media only screen and (max-width: calc(720px + 2rem)) {
+    body {
+        margin: 2rem 0;
+    }
 }
 
 header h1 {
     color: var(--light-yellow);
-    font-family: "IBM Plex Sans";
     font-size: 1.375rem;
     line-height: 1;
     margin-bottom: 2rem;
 }
 
+@media only screen and (max-width: calc(720px + 2rem)) {
+    header h1 {
+        font-size: 1.25rem;
+    }
+}
+
 div:has(h1):has(#progress) {
     display: flex;
     justify-content: space-between;
-}
-
-#progress {
-    font-family: "IBM Plex Sans";
 }
 
 header,
@@ -68,7 +77,6 @@ strong {
     border: none;
     color: var(--light-yellow);
     cursor: pointer;
-    font-family: "IBM Plex Sans";
     font-size: inherit;
     text-decoration: underline;
     text-decoration-thickness: 1px;
@@ -92,10 +100,7 @@ strong {
 
 #url {
     color: var(--light-yellow);
-}
-
-div:has(#url) {
-    font-family: "IBM Plex Sans";
+    font-weight: 400;
 }
 
 main {
@@ -126,6 +131,7 @@ p:last-of-type {
 li > div {
     cursor: pointer;
     display: inline-block;
+    font-weight: 400;
 }
 
 li > div[data-watched="true"] {
