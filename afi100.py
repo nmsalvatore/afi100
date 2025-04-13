@@ -7,7 +7,7 @@ import sqlite3
 import string
 
 from dotenv import load_dotenv
-from flask import Flask, make_response, redirect, render_template, request, url_for
+from flask import Flask, abort, make_response, redirect, render_template, request, url_for
 from flask_wtf.csrf import CSRFProtect
 
 
@@ -111,6 +111,13 @@ def index():
 
 @app.route("/<list_id>")
 def view_private_list(list_id):
+    with get_db_connection() as con:
+        cur = con.cursor()
+        cur.execute("SELECT 1 FROM user_lists WHERE id = ?", (list_id,))
+
+        if cur.fetchone() is None:
+            abort(404)
+
     films = fetch_user_films(list_id)
     return render_template("index.html", films=films, list_id=list_id)
 
