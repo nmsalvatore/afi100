@@ -1,0 +1,19 @@
+services:
+    afi100:
+        build: .
+        restart: always
+        environment:
+            - FLASK_ENV=${FLASK_ENV:-production}
+            - FLASK_SECRET_KEY=${FLASK_SECRET_KEY:-defaultsecretkey}
+        volumes:
+            - ./data:/app/data
+            - database:/app/database
+        ports:
+            - "${PORT:-8100}:8000"
+
+networks:
+    default:
+        driver: bridge
+
+volumes:
+    database:

@@ -13,6 +13,8 @@ from flask_wtf.csrf import CSRFProtect
 
 load_dotenv()
 
+DB_PATH = os.path.join("database", "db.sqlite3")
+FILM_PATH = os.path.join("data", "afi_films.json")
 
 app = Flask(__name__)
 app.config.from_prefixed_env()
@@ -22,8 +24,8 @@ csrf = CSRFProtect(app)
 
 
 def init_db():
-    if not os.path.exists("db.sqlite3"):
-        con = sqlite3.connect("db.sqlite3")
+    if not os.path.exists(DB_PATH):
+        con = sqlite3.connect(DB_PATH)
         cur = con.cursor()
 
         cur.execute("""
@@ -55,7 +57,7 @@ def init_db():
             )
         """)
 
-        with open("data/afi_films.json") as f:
+        with open(FILM_PATH) as f:
             film_data = json.load(f)
 
         afi_films = [
@@ -69,7 +71,7 @@ def init_db():
 
 
 def get_db_connection():
-    con = sqlite3.connect("db.sqlite3")
+    con = sqlite3.connect(DB_PATH)
     con.row_factory = sqlite3.Row
     return con
 
