@@ -183,9 +183,9 @@ footer p {
 }
 
 footer button {
-    margin-bottom: 2rem;
+    margin: 1rem 0;
 }
 
 footer a {
-    color: var(--accent-color);
+    color: var(--neutral-color);
 }
