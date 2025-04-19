@@ -1,12 +1,22 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap");
 
 :root {
-    --dark-blue: hsl(210 25% 20%);
-    --medium-blue: hsl(210 20% 60%);
-    --light-blue: hsl(210 45% 80%);
-    --whitish: hsl(210 60% 90%);
-    --light-yellow: hsl(30 45% 80%);
+    --bg-color: hsl(210 25% 20%);
+    --bg-color-opaque: rgba(38, 51, 64, 0.8);
+    --secondary-color: hsl(210 20% 60%);
+    --primary-color: hsl(210 45% 80%);
+    --neutral-color: hsl(210 60% 90%);
+    --accent-color: hsl(30 45% 80%);
     --line-height: 1.7;
+}
+
+[data-theme="light-mode"] {
+    --bg-color: hsl(210 10% 94%);
+    --bg-color-opaque: rgba(238, 240, 241, 0.8);
+    --secondary-color: hsl(210 20% 60%);
+    --primary-color: hsl(210 45% 35%);
+    --neutral-color: hsl(210 60% 20%);
+    --accent-color: hsl(30 45% 60%);
 }
 
 * {
@@ -16,15 +26,14 @@
 }
 
 html {
-    background: var(--dark-blue);
-    color: var(--light-blue);
+    background: var(--bg-color);
+    color: var(--primary-color);
     font-size: 100%;
 }
 
 body {
     font-family: "IBM Plex Mono", Courier;
     font-size: 0.9375rem;
-    font-weight: 300;
     letter-spacing: -0.4px;
     margin: 4rem 0;
 }
@@ -36,8 +45,8 @@ body {
 }
 
 header h1 {
-    color: var(--light-yellow);
-    font-size: 1.375rem;
+    color: var(--accent-color);
+    font-size: 1.25rem;
     line-height: 1;
     margin-bottom: 2rem;
 }
@@ -54,7 +63,8 @@ div:has(h1):has(#progress) {
 }
 
 header,
-main {
+main,
+footer {
     width: 100%;
     max-width: 720px;
     margin: auto;
@@ -62,25 +72,24 @@ main {
 }
 
 strong {
-    color: var(--light-yellow);
+    color: var(--accent-color);
 }
 
 .personal-link-container {
     padding: 1rem;
     margin-bottom: 1rem;
     background: rgba(0, 0, 0, 0.1);
-    color: var(--whitish);
+    color: var(--neutral-color);
 }
 
 #save_list_form button {
     background: none;
     border: none;
-    color: var(--light-yellow);
+    color: var(--accent-color);
     cursor: pointer;
     font-family: inherit;
     font-size: inherit;
     text-decoration: underline;
-    text-decoration-thickness: 1px;
 }
 
 #copy_url {
@@ -89,10 +98,9 @@ strong {
     color: inherit;
     cursor: pointer;
     font-family: inherit;
-    font-size: 0.875rem;
+    font-size: inherit;
     margin-left: 1rem;
     text-decoration: underline;
-    text-decoration-thickness: 1px;
 }
 
 #copy_url.copied {
@@ -100,8 +108,7 @@ strong {
 }
 
 #url {
-    color: var(--light-yellow);
-    font-weight: 400;
+    color: var(--accent-color);
 }
 
 main {
@@ -116,46 +123,69 @@ li.film {
     display: flex;
 }
 
-p {
-    color: var(--whitish);
+header p {
+    color: var(--neutral-color);
     line-height: var(--line-height);
 }
 
-p:not(p:last-of-type) {
+header p:not(p:last-of-type) {
     margin-bottom: 1rem;
 }
 
-p:last-of-type {
+header p:last-of-type {
     margin-bottom: 2rem;
 }
 
 li > div {
     cursor: pointer;
     display: inline-block;
-    font-weight: 400;
 }
 
 li > div[data-watched="true"] {
     text-decoration: line-through;
-    text-decoration-color: var(--medium-blue);
-    text-decoration-thickness: 1px;
+    text-decoration-color: var(--secondary-color);
     opacity: 0.5;
 }
 
 li > div[data-watched="true"] > span.info {
-    color: var(--medium-blue);
+    color: var(--secondary-color);
 }
 
 span.ranking {
-    color: var(--whitish);
+    color: var(--neutral-color);
     margin-right: 1ch;
 }
 
 span.director {
-    color: var(--medium-blue);
+    color: var(--secondary-color);
 }
 
 a.fancy-link {
-    color: var(--light-blue);
+    color: var(--primary-color);
     line-height: var(--line-height);
+}
+
+button#theme_toggler {
+    cursor: pointer;
+    /* position: fixed; */
+    right: 1rem;
+    bottom: 1rem;
+    background: var(--bg-color);
+    border: none;
+    color: var(--accent-color);
+    font-family: inherit;
+    font-size: inherit;
+    text-decoration: underline;
+}
+
+footer p {
+    line-height: var(--line-height);
+}
+
+footer button {
+    margin-bottom: 2rem;
+}
+
+footer a {
+    color: var(--accent-color);
 }
