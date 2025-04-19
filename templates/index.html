@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark-mode">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +17,8 @@
         {% if not list_id %}
             <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
         {% endif %}
+
+        <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
     </head>
     <body data-list-id="{{ list_id }}">
         <header>
@@ -46,5 +48,10 @@
                 {% endfor %}
             </ul>
         </main>
+
+        <footer>
+            <button id="theme_toggler" onclick="toggleTheme()">Switch to light mode</button>
+            <p>This is a <a href="https://yess.lol">yess.lol</a> creation. Don't take it too seriously.</p>
+        </footer>
     </body>
 </html>
