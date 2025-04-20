@@ -65,10 +65,12 @@ function setUpNameChangeDialogListeners() {
     }
 
     input.addEventListener("focus", () => {
-        dialog.style.margin = "1rem";
+        if (window.innerWidth < 570) {
+            dialog.style.margin = "1rem";
+        }
     });
 
-    input.addEventListener("blur", () => {
+    dialog.addEventListener("close", () => {
         dialog.removeAttribute("style");
     });
 }
