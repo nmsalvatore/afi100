@@ -1,4 +1,13 @@
+const WATCHED_FILM_IDS_KEY = "watched-film-ids";
+
 document.addEventListener("DOMContentLoaded", () => {
+    setUpFilmDivListeners();
+    setUpSaveListButtonListener();
+    setUpSaveListDialogListener();
+    setUpSaveListFormListener();
+});
+
+function setUpFilmDivListeners() {
     const allFilmDivs = document.querySelectorAll("li.film > div");
 
     if (allFilmDivs.length === 0) {
@@ -20,38 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
             toggleFilmWatchedStatus(div, filmId);
             updateProgressBar();
         });
-    });
-
-    const saveListButton = document.getElementById("save_list_button");
-
-    if (!saveListButton) {
-        console.error("Could not find element with ID 'save_list_button'");
-        return;
-    }
-
-    saveListButton.addEventListener("click", openSaveListDialog);
-
-    const saveForm = document.querySelector("form#save_list_form");
-
-    if (saveForm) {
-        saveForm.addEventListener("submit", function () {
-            const watchedFilmIds = getWatchedFilmIds() || [];
-            document.getElementById("watched_film_ids_input").value =
-                JSON.stringify(watchedFilmIds);
-        });
-    }
-
-    const saveListDialog = document.getElementById("save_list_dialog");
-
-    if (!saveListDialog) {
-        console.error("Could not find element with ID 'save_list_dialog'");
-        return;
-    }
-
-    saveListDialog.addEventListener("click", (e) => {
-        if (e.target == saveListDialog) {
-            saveListDialog.close();
-        }
     });
 
     function toggleFilmWatchedStatus(div, filmId) {
@@ -81,36 +58,96 @@ document.addEventListener("DOMContentLoaded", () => {
                 div.dataset.watched = "true";
             });
     }
-});
-
-function setWatchedFilmIds(filmIds) {
-    localStorage.setItem("watched-film-ids", JSON.stringify(filmIds));
 }
 
-function getTotalFilmCount() {
-    const filmRows = document.querySelectorAll("li.film");
-    return filmRows.length;
+function setUpSaveListButtonListener() {
+    const saveListButton = document.getElementById("save_list_button");
+
+    if (!saveListButton) {
+        console.error("Could not find element with ID 'save_list_button'");
+        return;
+    }
+
+    saveListButton.addEventListener("click", openSaveListDialog);
+
+    function openSaveListDialog() {
+        const saveListDialog = document.getElementById("save_list_dialog");
+
+        if (!saveListDialog) {
+            console.error("Could not find element with ID 'save_list_dialog'");
+            return;
+        }
+
+        saveListDialog.showModal();
+    }
 }
 
-function getWatchedFilmIds() {
-    return JSON.parse(localStorage.getItem("watched-film-ids"));
+function setUpSaveListDialogListener() {
+    const saveListDialog = document.getElementById("save_list_dialog");
+
+    if (!saveListDialog) {
+        console.error("Could not find element with ID 'save_list_dialog'");
+        return;
+    }
+
+    saveListDialog.addEventListener("click", (e) => {
+        if (e.target === saveListDialog) {
+            saveListDialog.close();
+        }
+    });
+}
+
+function setUpSaveListFormListener() {
+    const saveForm = document.querySelector("form#save_list_form");
+
+    if (!saveForm) {
+        console.error("Could not find element with ID 'save_list_form'");
+        return;
+    }
+
+    saveForm.addEventListener("submit", function () {
+        const watchedFilmIds = getWatchedFilmIds() || [];
+        document.getElementById("watched_film_ids_input").value =
+            JSON.stringify(watchedFilmIds);
+    });
 }
 
 function updateProgressBar() {
     const progressElement = document.getElementById("progress");
-    const watchedFilmIds = getWatchedFilmIds() || [];
-    const watchedCount = watchedFilmIds.length;
-    const totalFilmCount = getTotalFilmCount();
-    progressElement.textContent = `${watchedCount}/${totalFilmCount}`;
-}
 
-function openSaveListDialog() {
-    const saveListDialog = document.getElementById("save_list_dialog");
-
-    if (!saveListDialog) {
-        console.error("Could not find element with id 'save_list_dialog'");
+    if (!progressElement) {
+        console.error("Could not find element with ID 'progress'");
         return;
     }
 
-    saveListDialog.showModal();
+    const watchedFilmIds = getWatchedFilmIds() || [];
+    const watchedCount = watchedFilmIds.length;
+    const totalFilmCount = getTotalFilmCount();
+
+    progressElement.textContent = `${watchedCount}/${totalFilmCount}`;
+
+    function getTotalFilmCount() {
+        const filmRows = document.querySelectorAll("li.film");
+        return filmRows.length;
+    }
+}
+
+function getWatchedFilmIds() {
+    try {
+        return JSON.parse(localStorage.getItem(WATCHED_FILM_IDS_KEY));
+    } catch (error) {
+        console.error(
+            "Failed to parse watched film IDs from localStorage:",
+            error,
+        );
+        return [];
+    }
+}
+
+function setWatchedFilmIds(filmIds) {
+    try {
+        localStorage.setItem(WATCHED_FILM_IDS_KEY, JSON.stringify(filmIds));
+    } catch (error) {
+        console.error("Failed to set watched film IDs in localStorage", error);
+    }
 }
