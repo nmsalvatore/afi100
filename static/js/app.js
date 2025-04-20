@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const watchedFilmIds = getWatchedFilmIds() || [];
+
     if (watchedFilmIds.length > 0) {
         updateElementDataAttributes(watchedFilmIds);
     }
@@ -21,7 +22,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    const saveListButton = document.getElementById("save_list_button");
+
+    if (!saveListButton) {
+        console.error("Could not find element with ID 'save_list_button'");
+        return;
+    }
+
+    saveListButton.addEventListener("click", openSaveListDialog);
+
     const saveForm = document.querySelector("form#save_list_form");
+
     if (saveForm) {
         saveForm.addEventListener("submit", function () {
             const watchedFilmIds = getWatchedFilmIds() || [];
@@ -30,8 +41,22 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const saveListDialog = document.getElementById("save_list_dialog");
+
+    if (!saveListDialog) {
+        console.error("Could not find element with ID 'save_list_dialog'");
+        return;
+    }
+
+    saveListDialog.addEventListener("click", (e) => {
+        if (e.target == saveListDialog) {
+            saveListDialog.close();
+        }
+    });
+
     function toggleFilmWatchedStatus(div, filmId) {
         const isWatched = div.dataset.watched === "true";
+
         div.dataset.watched = (!isWatched).toString();
 
         const watchedFilmIds = getWatchedFilmIds() || [];
@@ -77,4 +102,15 @@ function updateProgressBar() {
     const watchedCount = watchedFilmIds.length;
     const totalFilmCount = getTotalFilmCount();
     progressElement.textContent = `${watchedCount}/${totalFilmCount}`;
+}
+
+function openSaveListDialog() {
+    const saveListDialog = document.getElementById("save_list_dialog");
+
+    if (!saveListDialog) {
+        console.error("Could not find element with id 'save_list_dialog'");
+        return;
+    }
+
+    saveListDialog.showModal();
 }

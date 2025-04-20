@@ -6,36 +6,51 @@
         <meta name="theme-color" content="hsl(210 25% 20%)">
         <link rel="icon" href="{{ url_for('static', filename='icons/favicon.png') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <title>The AFI 100 Challenge</title>
 
-        {% if list_id %}
+        {% if not user_list %}
+            <title>The AFI 100 Challenge | yess.lol</title>
+        {% else %}
+            <title>{{ user_list.name }} | yess.lol</title>
+        {% endif %}
+
+        {% if user_list %}
             <script src="https://unpkg.com/htmx.org@2.0.4"></script>
             <script src="{{ url_for('static', filename='js/progress.js') }}" defer></script>
             <script src="{{ url_for('static', filename='js/clipboard.js') }}" defer></script>
         {% endif %}
 
-        {% if not list_id %}
+        {% if not user_list %}
             <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
         {% endif %}
 
         <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
     </head>
-    <body data-list-id="{{ list_id }}">
+    <body {% if user_list %} data-list-id="{{ user_list.id }}"  {% endif %}>
         <header>
             <div>
-                <h1>The AFI 100 Challenge</h1>
+                {% if not user_list %}
+                    <h1>The AFI 100 Challenge</h1>
+                {% else %}
+                    <h1>{{ user_list.name }}</h1>
+                {% endif %}
 
                 {% include "progress.html" %}
             </div>
 
             {% include "info.html" %}
 
-            {% if not list_id %}
-                <form id="save_list_form" action="/save-list" method="post">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="watched_film_ids" id="watched_film_ids_input">
-                    <button type="submit">Save my list!</button>
-                </form>
+            {% if not user_list %}
+                <button id="save_list_button">Save my list!</button>
+                <dialog id="save_list_dialog">
+                    <form id="save_list_form" action="/save-list" method="post">
+                        <h2>Give your list a name</h2>
+                        <p>Enter a name for your list in the input box below. If you'd like to use the default name, leave the input box empty.</p>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="watched_film_ids" id="watched_film_ids_input">
+                        <input type="text" name="custom_list_name" placeholder="The AFI 100 Challenge" autocomplete="off" autofocus>
+                        <button type="submit">Create my list!</button>
+                    </form>
+                </dialog>
             {% endif %}
         </header>
         <main>
