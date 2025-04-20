@@ -1,5 +1,12 @@
+const THEME_KEY = "theme";
+
 document.addEventListener("DOMContentLoaded", (e) => {
-    const savedTheme = localStorage.getItem("theme");
+    loadSavedThemeIfExists();
+    setUpThemeToggleButtonListener();
+});
+
+function loadSavedThemeIfExists() {
+    const savedTheme = localStorage.getItem(THEME_KEY);
 
     if (!savedTheme) {
         return;
@@ -13,7 +20,18 @@ document.addEventListener("DOMContentLoaded", (e) => {
             setLightMode();
             break;
     }
-});
+}
+
+function setUpThemeToggleButtonListener() {
+    const button = document.getElementById("theme_toggler");
+
+    if (!button) {
+        console.error("Could not find button with ID 'theme_toggler'");
+        return;
+    }
+
+    button.addEventListener("click", toggleTheme);
+}
 
 function toggleTheme() {
     const htmlElement = getHTMLElement();
@@ -34,15 +52,15 @@ function setLightMode() {
     htmlElement.dataset.theme = "light-mode";
     setButtonText("Switch to dark mode");
     setThemeColorMetaTag("hsl(210 10% 94%)");
-    localStorage.setItem("theme", "light-mode");
+    localStorage.setItem(THEME_KEY, "light-mode");
 }
 
 function setDarkMode() {
-    const document = getHTMLElement();
-    document.dataset.theme = "dark-mode";
+    const htmlElement = getHTMLElement();
+    htmlElement.dataset.theme = "dark-mode";
     setButtonText("Switch to light mode");
     setThemeColorMetaTag("hsl(210 25% 20%)");
-    localStorage.setItem("theme", "dark-mode");
+    localStorage.setItem(THEME_KEY, "dark-mode");
 }
 
 function setButtonText(text) {
