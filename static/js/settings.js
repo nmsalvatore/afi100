@@ -37,7 +37,9 @@ function setUpNameChangeButtonListener() {
             );
         }
 
-        dialog.showModal();
+        setTimeout(() => {
+            dialog.showModal();
+        }, 100);
     });
 }
 
@@ -54,24 +56,6 @@ function setUpNameChangeDialogListeners() {
         if (e.target === dialog) {
             dialog.close();
         }
-    });
-
-    const input = document.getElementById("change_list_name_input");
-
-    if (!input) {
-        throw new TypeError(
-            "Could not find element with ID 'change_list_name_input'",
-        );
-    }
-
-    input.addEventListener("focus", () => {
-        if (window.innerWidth < 570) {
-            dialog.style.margin = "1rem";
-        }
-    });
-
-    dialog.addEventListener("close", () => {
-        dialog.removeAttribute("style");
     });
 }
 

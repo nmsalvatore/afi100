@@ -61,51 +61,53 @@ function setUpFilmDivListeners() {
 }
 
 function setUpSaveListButtonListener() {
-    const saveListButton = document.getElementById("save_list_button");
+    const button = document.getElementById("save_list_button");
 
-    if (!saveListButton) {
+    if (!button) {
         console.error("Could not find element with ID 'save_list_button'");
         return;
     }
 
-    saveListButton.addEventListener("click", openSaveListDialog);
+    button.addEventListener("click", openSaveListDialog);
 
     function openSaveListDialog() {
-        const saveListDialog = document.getElementById("save_list_dialog");
+        const dialog = document.getElementById("save_list_dialog");
 
-        if (!saveListDialog) {
+        if (!dialog) {
             console.error("Could not find element with ID 'save_list_dialog'");
             return;
         }
 
-        saveListDialog.showModal();
+        setTimeout(() => {
+            dialog.showModal();
+        }, 100);
     }
 }
 
 function setUpSaveListDialogListener() {
-    const saveListDialog = document.getElementById("save_list_dialog");
+    const dialog = document.getElementById("save_list_dialog");
 
-    if (!saveListDialog) {
+    if (!dialog) {
         console.error("Could not find element with ID 'save_list_dialog'");
         return;
     }
 
-    saveListDialog.addEventListener("click", (e) => {
-        if (e.target === saveListDialog) {
-            saveListDialog.close();
+    dialog.addEventListener("click", (e) => {
+        if (e.target === dialog) {
+            dialog.close();
         }
     });
 }
 
 function setUpSaveListFormListener() {
-    const saveForm = document.querySelector("form#save_list_form");
+    const form = document.getElementById("save_list_form");
 
-    if (!saveForm) {
+    if (!form) {
         console.error("Could not find element with ID 'save_list_form'");
         return;
     }
 
-    saveForm.addEventListener("submit", function () {
+    form.addEventListener("submit", function () {
         const watchedFilmIds = getWatchedFilmIds() || [];
         document.getElementById("watched_film_ids_input").value =
             JSON.stringify(watchedFilmIds);

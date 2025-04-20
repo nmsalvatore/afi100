@@ -109,6 +109,13 @@ dialog {
     box-shadow: 2px 2px 8px -4px;
 }
 
+@media only screen and (max-width: 572px) {
+    #save_list_dialog,
+    #change_list_name_dialog {
+        margin: 1rem;
+    }
+}
+
 dialog form {
     padding: 1rem;
 }
