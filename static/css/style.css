@@ -114,8 +114,9 @@ dialog {
         margin: auto 1rem;
     }
 
-    dialog:has(input) {
-        margin: auto 1rem 1rem 1rem;
+    #save_list_dialog,
+    #change_list_name_dialog {
+        margin: 1rem 1rem auto 1rem;
     }
 }
 
