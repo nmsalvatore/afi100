@@ -52,6 +52,7 @@ h1 {
 }
 
 h2 {
+    color: var(--accent-color);
     font-size: 1rem;
 }
 
@@ -102,14 +103,7 @@ dialog form {
     padding: 1rem;
 }
 
-@media only screen and (max-width: calc(540px + 2rem)) {
-    dialog {
-        margin: 1rem;
-    }
-}
-
 dialog h2 {
-    color: var(--accent-color);
     margin-bottom: 1rem;
 }
 
@@ -246,27 +240,22 @@ footer button:not(dialog button) {
     text-decoration: underline;
 }
 
-footer button#theme_toggler {
-    color: var(--accent-color);
-    margin: 1rem 0;
-}
-
 footer p {
+    color: var(--neutral-color);
     line-height: var(--line-height);
 }
 
 footer a {
-    color: var(--neutral-color);
+    color: inherit;
 }
 
 footer .settings {
     line-height: var(--line-height);
     list-style-type: disc;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 footer .settings > h2 {
-    color: var(--neutral-color);
     margin-bottom: 0.5rem;
 }
 

@@ -66,38 +66,41 @@
         </main>
 
         <footer>
-            {% if user_list %}
                 <ul class="settings">
-                    <h2>Settings:</h2>
+                    <h2>List settings:</h2>
                     <li>
-                        <button id="change_list_name_button">Change list name</button>
-                        <dialog id="change_list_name_dialog">
-                            <form id="change_list_name_form" action="/change-list-name/{{ user_list.id }}" method="post">
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                <h2>Change your list a name</h2>
-                                <p>Enter a name for your list in the input box below. If you'd like to use the default name, leave the input box empty.</p>
-                                <input type="text" name="new_list_name" placeholder="The AFI 100 Challenge" autocomplete="off" autofocus>
-                                <button formmethod="dialog">Cancel</button>
-                                <button type="submit">Change it!</button>
-                            </form>
-                        </dialog>
+                        <button id="theme_toggler">Switch to light mode</button>
                     </li>
-                    <li>
-                        <button id="delete_list_button">Delete this list</button>
-                        <dialog id="delete_list_dialog">
-                            <form action="/delete-list/{{ user_list.id }}" method="post">
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                <h2>Delete this list</h2>
-                                <p>Are you sure you want to delete this list? There's no going back.</p>
-                                <button formmethod="dialog">Cancel</button>
-                                <button type="submit">Delete it!</button>
-                            </form>
-                        </dialog>
-                    </li>
-                </ul>
-            {% endif %}
 
-            <button id="theme_toggler">Switch to light mode</button>
+                    {% if user_list %}
+                        <li>
+                            <button id="change_list_name_button">Change list name</button>
+                            <dialog id="change_list_name_dialog">
+                                <form id="change_list_name_form" action="/change-list-name/{{ user_list.id }}" method="post">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <h2>Change your list a name</h2>
+                                    <p>Enter a name for your list in the input box below. If you'd like to use the default name, leave the input box empty.</p>
+                                    <input id="change_list_name_input" type="text" name="new_list_name" placeholder="The AFI 100 Challenge" autocomplete="off" autofocus>
+                                    <button formmethod="dialog">Cancel</button>
+                                    <button type="submit">Change it!</button>
+                                </form>
+                            </dialog>
+                        </li>
+                        <li>
+                            <button id="delete_list_button">Delete this list</button>
+                            <dialog id="delete_list_dialog">
+                                <form action="/delete-list/{{ user_list.id }}" method="post">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <h2>Delete this list</h2>
+                                    <p>Are you sure you want to delete this list? There's no going back.</p>
+                                    <button formmethod="dialog">Cancel</button>
+                                    <button type="submit">Delete it!</button>
+                                </form>
+                            </dialog>
+                        </li>
+                    {% endif %}
+                </ul>
+
             <p>Brought to you by <a href="https://yess.lol">yess.lol</a>.</p>
         </footer>
     </body>
