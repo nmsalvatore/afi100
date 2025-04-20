@@ -2,14 +2,11 @@ async function copyURL() {
     try {
         const url = getURL();
         await navigator.clipboard.writeText(url);
-        const copiedText = await navigator.clipboard.readText();
 
-        if (copiedText === url) {
-            setCopyURLText("Copied!");
-            setTimeout(() => {
-                setCopyURLText("Copy URL");
-            }, 5000);
-        }
+        setCopyURLText("Copied!");
+        setTimeout(() => {
+            setCopyURLText("Copy URL");
+        }, 5000);
     } catch (err) {
         console.error("Failed to copy URL:", err);
     }
