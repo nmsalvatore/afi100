@@ -15,6 +15,7 @@ load_dotenv()
 
 DB_PATH = os.path.join("database", "db.sqlite3")
 FILM_PATH = os.path.join("data", "afi_films.json")
+DEFAULT_LIST_NAME = "The AFI 100 Challenge"
 
 app = Flask(__name__)
 app.config.from_prefixed_env()
@@ -195,8 +196,7 @@ def save_list():
             if cur.fetchone() is None:
                 break
 
-        list_name = request.form.get("custom_list_name") or "The AFI 100 Challenge"
-
+        list_name = request.form.get("custom_list_name") or DEFAULT_LIST_NAME
         cur.execute("INSERT INTO user_lists (id, name) VALUES (?, ?)", (list_id, list_name))
 
         watched_film_json = request.form.get("watched_film_ids")
@@ -204,10 +204,29 @@ def save_list():
         user_list_films = [(list_id, int(film_id), 1) for film_id in watched_film_ids]
 
         cur.executemany("INSERT INTO user_list_films (list_id, film_id, watched) VALUES (?, ?, ?)", user_list_films)
-
         con.commit()
 
-    return redirect(url_for('view_private_list', list_id=list_id))
+    return redirect(url_for("view_private_list", list_id=list_id))
+
+
+@app.route("/change-list-name/<list_id>", methods=["POST"])
+def change_list_name(list_id):
+    with get_db_connection() as con:
+        cur = con.cursor()
+        new_list_name = request.form.get("new_list_name") or DEFAULT_LIST_NAME
+        cur.execute("UPDATE user_lists SET name = ? WHERE id = ?", (new_list_name, list_id))
+        con.commit()
+    return redirect(url_for("view_private_list", list_id=list_id))
+
+
+@app.route("/delete-list/<list_id>", methods=["POST"])
+def delete_list(list_id):
+    with get_db_connection() as con:
+        cur = con.cursor()
+        cur.execute("DELETE FROM user_lists WHERE id = ?", (list_id,))
+        cur.execute("DELETE FROM user_list_films WHERE list_id = ?", (list_id,))
+        con.commit()
+    return redirect(url_for("index"))
 
 
 with app.app_context():
