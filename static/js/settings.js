@@ -5,13 +5,13 @@ function setUpSettingsEventListeners() {
         setUpNameChangeListeners();
         setUpDeleteListListeners();
     } catch (error) {
-        console.error("Error adding event listeners:", error);
+        console.error("Error setting up event listeners:", error);
     }
 }
 
 function setUpNameChangeListeners() {
     setUpNameChangeButtonListener();
-    setUpNameChangeDialogListener();
+    setUpNameChangeDialogListeners();
 }
 
 function setUpDeleteListListeners() {
@@ -23,7 +23,7 @@ function setUpNameChangeButtonListener() {
     const button = document.getElementById("change_list_name_button");
 
     if (!button) {
-        throw Error(
+        throw TypeError(
             "Could not find button element with ID 'change_list_name_button'",
         );
     }
@@ -32,7 +32,7 @@ function setUpNameChangeButtonListener() {
         const dialog = document.getElementById("change_list_name_dialog");
 
         if (!dialog) {
-            throw new Error(
+            throw new TypeError(
                 "Could not find dialog element with ID 'change_list_name_dialog'",
             );
         }
@@ -41,11 +41,11 @@ function setUpNameChangeButtonListener() {
     });
 }
 
-function setUpNameChangeDialogListener() {
+function setUpNameChangeDialogListeners() {
     const dialog = document.getElementById("change_list_name_dialog");
 
     if (!dialog) {
-        throw new Error(
+        throw new TypeError(
             "Could not find element with ID 'change_list_name_dialog'",
         );
     }
@@ -55,20 +55,38 @@ function setUpNameChangeDialogListener() {
             dialog.close();
         }
     });
+
+    const input = document.getElementById("change_list_name_input");
+
+    if (!input) {
+        throw new TypeError(
+            "Could not find element with ID 'change_list_name_input'",
+        );
+    }
+
+    input.addEventListener("focus", () => {
+        dialog.style.margin = "1rem";
+    });
+
+    input.addEventListener("blur", () => {
+        dialog.removeAttribute("style");
+    });
 }
 
 function setUpDeleteListButtonListener() {
     const button = document.getElementById("delete_list_button");
 
     if (!button) {
-        throw new Error("Could not find element with ID 'delete_list_button'");
+        throw new TypeError(
+            "Could not find element with ID 'delete_list_button'",
+        );
     }
 
     button.addEventListener("click", () => {
         const dialog = document.getElementById("delete_list_dialog");
 
         if (!dialog) {
-            throw new Error(
+            throw new TypeError(
                 "Could not find element with ID 'delete_list_dialog'",
             );
         }
@@ -81,7 +99,9 @@ function setUpDeleteListDialogListener() {
     const dialog = document.getElementById("delete_list_dialog");
 
     if (!dialog) {
-        throw new Error("Could not find element with ID 'delete_list_dialog'");
+        throw new TypeError(
+            "Could not find element with ID 'delete_list_dialog'",
+        );
     }
 
     dialog.addEventListener("click", (e) => {
