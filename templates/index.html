@@ -17,6 +17,7 @@
             <script src="https://unpkg.com/htmx.org@2.0.4"></script>
             <script src="{{ url_for('static', filename='js/progress.js') }}" defer></script>
             <script src="{{ url_for('static', filename='js/clipboard.js') }}" defer></script>
+            <script src="{{ url_for('static', filename='js/settings.js') }}" defer></script>
         {% endif %}
 
         {% if not user_list %}
@@ -65,6 +66,25 @@
         </main>
 
         <footer>
+            {% if user_list %}
+                <ul class="settings">
+                    <h2>Settings:</h2>
+                    <li>
+                        <button id="change_list_name">Change list name</button>
+                        <dialog id="change_list_name_dialog">
+                            <form id="change_list_name_form" action="/change-list-name/{{ user_list.id }}" method="post">
+                                <h2>Change your list a name</h2>
+                                <p>Enter a name for your list in the input box below. If you'd like to use the default name, leave the input box empty.</p>
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <input type="text" name="new_list_name" placeholder="The AFI 100 Challenge" autocomplete="off" autofocus>
+                                <button type="submit">Change it!</button>
+                            </form>
+                        </dialog>
+                    </li>
+                    <li><a href="/">Delete this list</a></li>
+                </ul>
+            {% endif %}
+
             <button id="theme_toggler">Switch to light mode</button>
             <p>Brought to you by <a href="https://yess.lol">yess.lol</a>.</p>
         </footer>

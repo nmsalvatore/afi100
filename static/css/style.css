@@ -44,17 +44,15 @@ body {
     }
 }
 
-header h1 {
+h1 {
     color: var(--accent-color);
     font-size: 1.25rem;
     line-height: 1;
     margin-bottom: 2rem;
 }
 
-@media only screen and (max-width: calc(720px + 2rem)) {
-    header h1 {
-        font-size: 1.25rem;
-    }
+h2 {
+    font-size: 1rem;
 }
 
 div:has(h1):has(#progress) {
@@ -92,7 +90,7 @@ strong {
     text-decoration: underline;
 }
 
-#save_list_dialog {
+dialog {
     margin: auto;
     max-width: 540px;
     border: none;
@@ -100,28 +98,31 @@ strong {
     box-shadow: 2px 2px 8px -4px;
 }
 
-#save_list_form {
+dialog form {
     padding: 1rem;
 }
 
 @media only screen and (max-width: calc(540px + 2rem)) {
-    #save_list_dialog {
+    dialog {
         margin: auto 1rem;
     }
 }
 
-#save_list_dialog h2 {
+dialog h2 {
     color: var(--accent-color);
-    font-size: 1.125rem;
     margin-bottom: 1rem;
 }
 
-#save_list_dialog p:last-of-type {
+dialog p {
+    color: var(--neutral-color);
+}
+
+dialog p:last-of-type {
     margin-bottom: 1rem;
 }
 
-#save_list_dialog input[name="custom_list_name"],
-#save_list_dialog button {
+dialog input,
+dialog button {
     display: block;
     width: 100%;
     padding: 0.5rem;
@@ -131,29 +132,29 @@ strong {
     color: var(--neutral-color);
 }
 
-#save_list_dialog input[name="custom_list_name"] {
+dialog input {
     background: var(--bg-color);
     border: 2px solid var(--secondary-color);
     margin-bottom: 1rem;
 }
 
-#save_list_dialog input[name="custom_list_name"]::placeholder {
+dialog input::placeholder {
     opacity: 1;
     color: rgba(214, 229, 245, 0.5);
 }
 
-#save_list_dialog button {
+dialog button {
     cursor: pointer;
     background: var(--neutral-color);
     border: none;
     color: var(--bg-color);
 }
 
-#save_list_dialog input[name="custom_list_name"]:focus {
+dialog input:focus {
     outline: none;
 }
 
-#save_list_dialog::backdrop {
+dialog::backdrop {
     background: rgba(0, 0, 0, 0.4);
 }
 
@@ -230,24 +231,44 @@ a.fancy-link {
     line-height: var(--line-height);
 }
 
-button#theme_toggler {
+footer button:not(dialog button) {
     cursor: pointer;
     background: var(--bg-color);
     border: none;
-    color: var(--accent-color);
+    color: var(--primary-color);
     font-family: inherit;
     font-size: inherit;
     text-decoration: underline;
+}
+
+footer button#theme_toggler {
+    color: var(--accent-color);
+    margin: 1rem 0;
 }
 
 footer p {
     line-height: var(--line-height);
 }
 
-footer button {
-    margin: 1rem 0;
-}
-
 footer a {
     color: var(--neutral-color);
+}
+
+footer .settings {
+    line-height: var(--line-height);
+    list-style-type: disc;
+    margin-bottom: 1rem;
+}
+
+footer .settings > h2 {
+    color: var(--neutral-color);
+    margin-bottom: 0.5rem;
+}
+
+footer .settings li {
+    margin-left: 1rem;
+}
+
+footer .settings a {
+    color: var(--primary-color);
 }
