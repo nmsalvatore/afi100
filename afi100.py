@@ -219,6 +219,16 @@ def change_list_name(list_id):
     return redirect(url_for("view_private_list", list_id=list_id))
 
 
+@app.route("/delete-list/<list_id>", methods=["POST"])
+def delete_list(list_id):
+    with get_db_connection() as con:
+        cur = con.cursor()
+        cur.execute("DELETE FROM user_lists WHERE id = ?", (list_id,))
+        cur.execute("DELETE FROM user_list_films WHERE list_id = ?", (list_id,))
+        con.commit()
+    return redirect(url_for("index"))
+
+
 with app.app_context():
     init_db()
 

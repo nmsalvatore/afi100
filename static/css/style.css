@@ -104,7 +104,7 @@ dialog form {
 
 @media only screen and (max-width: calc(540px + 2rem)) {
     dialog {
-        margin: auto 1rem;
+        margin: 1rem;
     }
 }
 
@@ -145,9 +145,14 @@ dialog input::placeholder {
 
 dialog button {
     cursor: pointer;
-    background: var(--neutral-color);
+    background: var(--accent-color);
     border: none;
     color: var(--bg-color);
+}
+
+dialog button[formmethod="dialog"] {
+    background: var(--neutral-color);
+    margin-bottom: 1rem;
 }
 
 dialog input:focus {

@@ -44,9 +44,9 @@
                 <button id="save_list_button">Save my list!</button>
                 <dialog id="save_list_dialog">
                     <form id="save_list_form" action="/save-list" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <h2>Give your list a name</h2>
                         <p>Enter a name for your list in the input box below. If you'd like to use the default name, leave the input box empty.</p>
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="watched_film_ids" id="watched_film_ids_input">
                         <input type="text" name="custom_list_name" placeholder="The AFI 100 Challenge" autocomplete="off" autofocus>
                         <button type="submit">Create my list!</button>
@@ -70,18 +70,30 @@
                 <ul class="settings">
                     <h2>Settings:</h2>
                     <li>
-                        <button id="change_list_name">Change list name</button>
+                        <button id="change_list_name_button">Change list name</button>
                         <dialog id="change_list_name_dialog">
                             <form id="change_list_name_form" action="/change-list-name/{{ user_list.id }}" method="post">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <h2>Change your list a name</h2>
                                 <p>Enter a name for your list in the input box below. If you'd like to use the default name, leave the input box empty.</p>
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <input type="text" name="new_list_name" placeholder="The AFI 100 Challenge" autocomplete="off" autofocus>
+                                <button formmethod="dialog">Cancel</button>
                                 <button type="submit">Change it!</button>
                             </form>
                         </dialog>
                     </li>
-                    <li><a href="/">Delete this list</a></li>
+                    <li>
+                        <button id="delete_list_button">Delete this list</button>
+                        <dialog id="delete_list_dialog">
+                            <form action="/delete-list/{{ user_list.id }}" method="post">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <h2>Delete this list</h2>
+                                <p>Are you sure you want to delete this list? There's no going back.</p>
+                                <button formmethod="dialog">Cancel</button>
+                                <button type="submit">Delete it!</button>
+                            </form>
+                        </dialog>
+                    </li>
                 </ul>
             {% endif %}
 
