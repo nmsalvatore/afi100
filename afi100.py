@@ -21,6 +21,12 @@ DEFAULT_LIST_NAME = "The AFI 100 Challenge"
 app = Flask(__name__)
 app.config.from_prefixed_env()
 app.config["SECRET_KEY"]
+
+if not os.environ["FLASK_ENV"] == "development":
+    app.wsgi_app = ProxyFix(
+        app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+    )
+
 app.wsgi_app = ProxyFix(
     app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
 )
