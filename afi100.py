@@ -9,6 +9,7 @@ import string
 from dotenv import load_dotenv
 from flask import Flask, abort, make_response, redirect, render_template, request, url_for
 from flask_wtf.csrf import CSRFProtect
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 load_dotenv()
@@ -20,6 +21,9 @@ DEFAULT_LIST_NAME = "The AFI 100 Challenge"
 app = Flask(__name__)
 app.config.from_prefixed_env()
 app.config["SECRET_KEY"]
+app.wsgi_app = ProxyFix(
+    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+)
 
 csrf = CSRFProtect(app)
 
