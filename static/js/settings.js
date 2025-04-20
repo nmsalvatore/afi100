@@ -37,9 +37,7 @@ function setUpNameChangeButtonListener() {
             );
         }
 
-        setTimeout(() => {
-            dialog.showModal();
-        }, 100);
+        dialog.showModal();
     });
 }
 

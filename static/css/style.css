@@ -110,9 +110,12 @@ dialog {
 }
 
 @media only screen and (max-width: 572px) {
-    #save_list_dialog,
-    #change_list_name_dialog {
-        margin: 1rem;
+    dialog {
+        margin: auto 1rem;
+    }
+
+    dialog:has(input) {
+        margin: auto 1rem 1rem 1rem;
     }
 }
 

@@ -78,9 +78,7 @@ function setUpSaveListButtonListener() {
             return;
         }
 
-        setTimeout(() => {
-            dialog.showModal();
-        }, 100);
+        dialog.showModal();
     }
 }
 
