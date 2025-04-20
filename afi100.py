@@ -105,6 +105,14 @@ def fetch_user_films(list_id):
         return films
 
 
+def fetch_user_list(list_id):
+    with get_db_connection() as con:
+        cur = con.cursor()
+        cur.execute("SELECT * FROM user_lists WHERE id = ?", (list_id,))
+        user_list = cur.fetchone()
+        return user_list
+
+
 @app.route("/")
 def index():
     films = fetch_all_films()
@@ -115,13 +123,15 @@ def index():
 def view_private_list(list_id):
     with get_db_connection() as con:
         cur = con.cursor()
-        cur.execute("SELECT 1 FROM user_lists WHERE id = ?", (list_id,))
+        cur.execute("SELECT id, name FROM user_lists WHERE id = ?", (list_id,))
 
-        if cur.fetchone() is None:
+        user_list = cur.fetchone()
+
+        if user_list is None:
             abort(404)
 
     films = fetch_user_films(list_id)
-    return render_template("index.html", films=films, list_id=list_id)
+    return render_template("index.html", films=films, user_list=user_list)
 
 
 @app.route("/toggle-watched/<list_id>/<int:film_id>", methods=["POST"])
@@ -157,7 +167,9 @@ def toggle_watched(list_id, film_id):
 
         film = cur.fetchone()
 
-    response = make_response(render_template("film.html", film=film, list_id=list_id))
+    user_list = fetch_user_list(list_id)
+
+    response = make_response(render_template("film.html", film=film, user_list=user_list))
     response.headers["HX-Trigger"] = "updateProgress"
     return response
 
@@ -165,15 +177,13 @@ def toggle_watched(list_id, film_id):
 @app.route("/progress/<list_id>", methods=["GET"])
 def progress(list_id):
     films = fetch_user_films(list_id)
-    return render_template("progress.html", films=films, list_id=list_id)
+    user_list = fetch_user_list(list_id)
+    return render_template("progress.html", films=films, user_list=user_list)
 
 
 @app.route("/save-list", methods=["POST"])
 def save_list():
     custom_chars = string.ascii_letters + string.digits
-
-    watched_film_json = request.form.get("watched_film_ids")
-    watched_film_ids = json.loads(watched_film_json)
 
     with get_db_connection() as con:
         cur = con.cursor()
@@ -185,9 +195,16 @@ def save_list():
             if cur.fetchone() is None:
                 break
 
+        list_name = request.form.get("custom_list_name") or "The AFI 100 Challenge"
+
+        cur.execute("INSERT INTO user_lists (id, name) VALUES (?, ?)", (list_id, list_name))
+
+        watched_film_json = request.form.get("watched_film_ids")
+        watched_film_ids = json.loads(watched_film_json)
         user_list_films = [(list_id, int(film_id), 1) for film_id in watched_film_ids]
-        cur.execute("INSERT INTO user_lists (id) VALUES (?)", (list_id,))
+
         cur.executemany("INSERT INTO user_list_films (list_id, film_id, watched) VALUES (?, ?, ?)", user_list_films)
+
         con.commit()
 
     return redirect(url_for('view_private_list', list_id=list_id))

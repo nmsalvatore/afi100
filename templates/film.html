@@ -1,7 +1,7 @@
-{% if list_id %}
+{% if user_list %}
     <div
         data-watched="{{ 'true' if film.watched else 'false' }}"
-        hx-post="{{ url_for('toggle_watched', list_id=list_id, film_id=film.id) }}"
+        hx-post="{{ url_for('toggle_watched', list_id=user_list.id, film_id=film.id) }}"
         hx-swap="outerHTML"
         hx-trigger="click"
         hx-headers='{"X-CSRFToken": "{{ csrf_token() }}"}'
@@ -11,7 +11,7 @@
     </div>
 {% endif %}
 
-{% if not list_id %}
+{% if not user_list %}
     <div data-watched="{{ 'true' if film.watched else 'false' }}">
         <span class="info">{{ film.title }} ({{ film.year }})</span>
         <span class="director">{{ film.director }}</span>
