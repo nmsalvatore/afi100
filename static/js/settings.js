@@ -55,6 +55,27 @@ function setUpNameChangeDialogListeners() {
             dialog.close();
         }
     });
+
+    window.visualViewport.addEventListener("resize", () => {
+        const keyboardHeight = Math.round(
+            window.innerHeight - window.visualViewport.height,
+        );
+        const toolbarHeight = Math.round(window.visualViewport.offsetTop);
+        const bottomPosition =
+            toolbarHeight > 0 ? keyboardHeight - toolbarHeight : keyboardHeight;
+
+        if (dialog.open && keyboardHeight > 0) {
+            dialog.style.position = "fixed";
+            dialog.style.bottom = `${bottomPosition}px`;
+            dialog.style.top = "auto";
+            dialog.style.margin = "1rem";
+            dialog.style.transform = "translateY(0)";
+        }
+
+        if (keyboardHeight <= 0 && dialog.getAttribute("style")) {
+            dialog.removeAttribute("style");
+        }
+    });
 }
 
 function setUpDeleteListButtonListener() {
