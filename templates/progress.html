@@ -2,9 +2,9 @@
 {% set total_films = films|length %}
 
 {% if user_list %}
-    <span id="progress">{{ watched_count }}/{{ total_films }}</span>
+    <span id="progress" data-js-required="true">{{ watched_count }}/{{ total_films }}</span>
 {% endif %}
 
 {% if not user_list %}
-    <span id="progress"></span>
+    <span id="progress" data-js-required="true"></span>
 {% endif %}

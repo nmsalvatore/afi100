@@ -209,12 +209,20 @@ header p {
     line-height: var(--line-height);
 }
 
-header p:not(p:last-of-type) {
+header p {
     margin-bottom: 1rem;
 }
 
 header p:last-of-type {
     margin-bottom: 2rem;
+}
+
+noscript strong {
+    background: rgba(0, 0, 0, 0.15);
+    color: var(--accent-color);
+    display: block;
+    margin-top: 2rem;
+    padding: 1rem;
 }
 
 li > div {

@@ -25,6 +25,7 @@
         {% endif %}
 
         <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/enable.js') }}"></script>
     </head>
     <body {% if user_list %} data-list-id="{{ user_list.id }}"  {% endif %}>
         <header>
@@ -40,9 +41,18 @@
 
             {% include "info.html" %}
 
+            <noscript>
+                <strong>To use this list interactively, please enable JavaScript.</strong>
+                <style>
+                    [data-js-required="true"] {
+                        display: none;
+                    }
+                </style>
+            </noscript>
+
             {% if not user_list %}
-                <button id="save_list_button">Save my list!</button>
-                <dialog id="save_list_dialog">
+                <button id="save_list_button" data-js-required="true">Save my list!</button>
+                <dialog id="save_list_dialog" data-js-required="true">
                     <form id="save_list_form" action="/save-list" method="post">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                         <h2>Give your list a name</h2>
@@ -67,7 +77,7 @@
         </main>
 
         <footer>
-                <ul class="settings">
+                <ul class="settings" data-js-required="true">
                     <h2>Settings:</h2>
                     <li>
                         <button id="theme_toggler">Switch to light mode</button>
