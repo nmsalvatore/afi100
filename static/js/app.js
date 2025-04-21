@@ -3,7 +3,7 @@ const WATCHED_FILM_IDS_KEY = "watched-film-ids";
 document.addEventListener("DOMContentLoaded", () => {
     setUpFilmDivListeners();
     setUpSaveListButtonListener();
-    setUpSaveListDialogListener();
+    setUpSaveListDialogListeners();
     setUpSaveListFormListener();
 });
 
@@ -82,7 +82,7 @@ function setUpSaveListButtonListener() {
     }
 }
 
-function setUpSaveListDialogListener() {
+function setUpSaveListDialogListeners() {
     const dialog = document.getElementById("save_list_dialog");
 
     if (!dialog) {
@@ -93,6 +93,27 @@ function setUpSaveListDialogListener() {
     dialog.addEventListener("click", (e) => {
         if (e.target === dialog) {
             dialog.close();
+        }
+    });
+
+    window.visualViewport.addEventListener("resize", () => {
+        const keyboardHeight = Math.round(
+            window.innerHeight - window.visualViewport.height,
+        );
+        const toolbarHeight = Math.round(window.visualViewport.offsetTop);
+        const bottomPosition =
+            toolbarHeight > 0 ? keyboardHeight - toolbarHeight : keyboardHeight;
+
+        if (dialog.open && keyboardHeight > 0) {
+            dialog.style.position = "fixed";
+            dialog.style.bottom = `${bottomPosition}px`;
+            dialog.style.top = "auto";
+            dialog.style.margin = "1rem";
+            dialog.style.transform = "translateY(0)";
+        }
+
+        if (keyboardHeight <= 0 && dialog.getAttribute("style")) {
+            dialog.removeAttribute("style");
         }
     });
 }
