@@ -7,7 +7,7 @@ import sqlite3
 import string
 
 from dotenv import load_dotenv
-from flask import Flask, abort, make_response, redirect, render_template, request, url_for
+from flask import Flask, abort, make_response, redirect, render_template, request, url_for, send_from_directory
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -128,6 +128,11 @@ def fetch_user_list(list_id):
 def index():
     films = fetch_all_films()
     return render_template("index.html", films=films)
+
+
+@app.route("/robots.txt")
+def robots_txt():
+    return send_from_directory(app.static_folder, "robots.txt")
 
 
 @app.route("/<list_id>")
